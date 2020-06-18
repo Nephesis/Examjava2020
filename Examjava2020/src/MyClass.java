@@ -1,35 +1,52 @@
 import java.sql.*;
+import java.util.Scanner;
 
 public class MyClass {
 
 	public static void main(String[] args) {
-		String dbUrl = "jdbc:mariadb://localhost/classicmodels?user=classicmodels&password=classicmodels";
-		String dbClass = "org.mariadb.jdbc.Driver";
-		String query = "select employeeNumber, firstName, lastName FROM employees";
 		
+		Connection connection;
+		Statement statement;
+		ResultSet result;
 		
-	
-	try {
-		Class.forName(dbClass);
-		Connection con = DriverManager.getConnection (dbUrl);
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(query);
-		while (rs.next()) {
-		int employeeNumber = rs.getInt("employeeNumber");
-		String firstName = rs.getString("firstName");
-		String lastName = rs.getString("lastName");
-		System.out.println("Employee ppr "+ employeeNumber+ " " + firstName + " " + lastName );
-		} //end while
-		stmt.close();
-		con.close();
-		} //end try
-		catch(ClassNotFoundException e) {
-		e.printStackTrace();
-		}
-		catch(SQLException e) {
-		e.printStackTrace();
-		}
+		Scanner clavier = new Scanner(System.in);
 
-}
+		
+		String other_details;
+		int id;
+		
+		// Parametre de la BDD
+		String dbUrl = "jdbc:mariadb://localhost/examjava2020";
+		String user = "examjava2020";
+		String password = "examjava2020";
+		String dbClass = "org.mariadb.jdbc.Driver";
+		
+		try {
+			Class.forName(dbClass);
+			connection = DriverManager.getConnection(dbUrl, user, password);
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM Timesheets");
+			while(result.next())
+			{
+				System.out.println("ID:"+ result.getString("id") +"  -  lastname: "+ result.getString("lastName") +" - firstname : "+ result.getString("firstName")+" - Datereg : "+ result.getString("reg_date"));
+			}
+			System.out.println("Ajout d'un details à la Table 'Timesheet' de la BD examjava2020 ");
+			
+			
+			
+			
+			
+			System.out.print("Entrer le details du timesheet : ");
+			other_details = clavier.nextLine();
+			
+			System.out.println("le texte : "+other_details +" est ajouter dans la bdd");
+			String query = "INSERT INTO Timesheets(other_details) VALUES('"+other_details+"')";
+			statement.executeQuery(query);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 }
