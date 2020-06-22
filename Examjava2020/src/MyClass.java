@@ -28,7 +28,7 @@ public class MyClass {
 			result = statement.executeQuery("SELECT * FROM Timesheets");
 			while(result.next())
 			{
-				System.out.println("ID:"+ result.getString("id") +"  -  lastname: "+ result.getString("lastName") +" - firstname : "+ result.getString("firstName")+" - Datereg : "+ result.getString("reg_date"));
+				System.out.println("ID:"+ result.getString("timesheet_id") +"  -  details: "+ result.getString("other_details"));
 			}
 			System.out.println("Ajout d'un details à la Table 'Timesheet' de la BD examjava2020 ");
 			
